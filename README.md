@@ -7,10 +7,10 @@
 - screenshots (options: `true`, `false`)
 - tracing (options: `never`, `on errror`, `alyways`)
 - retry logic
-- parallel execution (Only `ParallelScope.Self` is supported)
+- parallel execution (only `ParallelScope.Self` is supported)
 - Page Object Model pattern
 - additional utilities
-- generating report from test results
+- generate report from test results
 - easy setup, suitable for CI/CD
 
 ## How to use
