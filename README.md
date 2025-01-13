@@ -5,7 +5,7 @@
 - configuration (`.runsettings` file)
 - logging (options: `true`, `false`)
 - screenshots (options: `true`, `false`)
-- tracing (options: `never`, `on errror`, `alyways`)
+- tracing (options: `never`, `on error`, `always`)
 - retry logic
 - parallel execution (only `ParallelScope.Self` is supported)
 - Page Object Model pattern
