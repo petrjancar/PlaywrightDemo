@@ -1,6 +1,7 @@
 using Microsoft.Playwright;
 using Automation.Configuration.Logging;
 using Automation.Utilities.Helpers;
+using Automation.Utilities.Attributes;
 
 namespace Automation.Tests.LoginTests;
 
@@ -9,6 +10,7 @@ namespace Automation.Tests.LoginTests;
 public class GeneratedLoginTests : BaseTest
 {
     [Test]
+    [UIRetry]
     public async Task LoginLogoutGeneratedTest()
     {
         await Page.GotoAsync("https://eviltester.github.io/simpletodolist/adminlogin.html");

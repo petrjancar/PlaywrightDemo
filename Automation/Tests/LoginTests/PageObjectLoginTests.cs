@@ -3,6 +3,7 @@ using Automation.Model.Environment;
 using Automation.Model.FormData;
 using Automation.Utilities.Helpers;
 using Automation.Configuration.Logging;
+using Automation.Utilities.Attributes;
 
 namespace Automation.Tests.LoginTests;
 
@@ -11,6 +12,7 @@ namespace Automation.Tests.LoginTests;
 public class PageObjectLoginTests : BaseTest
 {
     [Test]
+    [UIRetry]
     public async Task LoginLogoutTest()
     {
         var adminLoginPage = new AdminLogin(Page);
