@@ -5,6 +5,7 @@ using Automation.Utilities.Helpers;
 using Automation.Configuration.Logging;
 using Automation.Utilities.Attributes;
 using Automation.Utilities.Waiters;
+using Automation.Configuration;
 
 namespace Automation.Tests.LoginTests;
 
@@ -12,6 +13,7 @@ namespace Automation.Tests.LoginTests;
 public class PageObjectLoginTests : BaseTest
 {
     [Test]
+    [Category(TestCategories.Smoke)]
     [UIRetry]
     public async Task LoginLogoutTest()
     {
