@@ -1,4 +1,4 @@
-namespace Automation.Utilities;
+namespace Automation.Utilities.Waiters;
 
 /// <summary>
 /// Wait times for the automation tests.

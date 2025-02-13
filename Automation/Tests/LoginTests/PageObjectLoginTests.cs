@@ -4,11 +4,11 @@ using Automation.Model.FormData;
 using Automation.Utilities.Helpers;
 using Automation.Configuration.Logging;
 using Automation.Utilities.Attributes;
+using Automation.Utilities.Waiters;
 
 namespace Automation.Tests.LoginTests;
 
 [TestFixture]
-[Parallelizable(ParallelScope.Self)]
 public class PageObjectLoginTests : BaseTest
 {
     [Test]
@@ -23,15 +23,15 @@ public class PageObjectLoginTests : BaseTest
             Password = Credentials.AdminPassword,
             RememberMe = false
         });
-       
+
         var adminViewPage = new AdminView(Page);
         await adminViewPage.ExpectUrlAsync();
-        await adminViewPage.ExpectHeaderContentAsync("Admin View");
+        Assert.That(await PollingWaiter.TryWaitAsync(async () => await adminViewPage.HeaderContentAsync() == "Admin View"), Is.True);
         await adminViewPage.Navigation.LogoutAsync();
 
         adminLoginPage = new AdminLogin(Page);
         await adminLoginPage.ExpectUrlAsync();
-        await adminLoginPage.ExpectHeaderContentAsync("Admin Login");
+        Assert.That(await PollingWaiter.TryWaitAsync(async () => await adminLoginPage.HeaderContentAsync() == "Admin Login"), Is.True);
 
         LoggingManager.LogMessage("Hello World", GetType());
         await ScreenshotHelper.TakeScreenshotAsync(Page, "HelloWorld");

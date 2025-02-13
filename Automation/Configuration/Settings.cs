@@ -1,4 +1,5 @@
 using Automation.Configuration.Tracing;
+using Automation.Configuration.Logging;
 
 namespace Automation.Configuration;
 
@@ -25,26 +26,26 @@ public static class Settings
         string? screenshots = TestContext.Parameters["Screenshots"];
         string? retryCount = TestContext.Parameters["RetryCount"];
 
-        if (resultsDirectory != null)
-        {
-            ResultsDirectory = resultsDirectory;
-        }
-        if (logging != null)
-        {
-            Logging = bool.Parse(logging);
-        }
-        if (tracing != null)
-        {
-            Tracing = (TracingOptions)Enum.Parse(typeof(TracingOptions), tracing);
-        }
-        if (screenshots != null)
-        {
-            Screenshots = bool.Parse(screenshots);
-        }
-        if (retryCount != null)
-        {
-            RetryCount = int.Parse(retryCount);
-        }
+        ResultsDirectory = resultsDirectory ?? ResultsDirectory;
+        Logging = bool.TryParse(logging, out var loggingResult) ? loggingResult : Logging;
+        Tracing = Enum.TryParse(tracing, out TracingOptions tracingResult) ? tracingResult : Tracing;
+        Screenshots = bool.TryParse(screenshots, out var screenshotsResult) ? screenshotsResult : Screenshots;
+        RetryCount = int.TryParse(retryCount, out var retryCountResult) ? retryCountResult : RetryCount;
+    }
+
+    /// <summary>
+    /// This method logs all settings.
+    /// </summary>
+    public static void LogSettings()
+    {
+        LoggingManager.LogMessage($"ResultsDirectory: {ResultsDirectory}", typeof(Settings));
+        LoggingManager.LogMessage($"LogsDirectory: {LogsDirectory}", typeof(Settings));
+        LoggingManager.LogMessage($"TracesDirectory: {TracesDirectory}", typeof(Settings));
+        LoggingManager.LogMessage($"ScreenshotsDirectory: {ScreenshotsDirectory}", typeof(Settings));
+        LoggingManager.LogMessage($"Logging: {Logging}", typeof(Settings));
+        LoggingManager.LogMessage($"Tracing: {Tracing}", typeof(Settings));
+        LoggingManager.LogMessage($"Screenshots: {Screenshots}", typeof(Settings));
+        LoggingManager.LogMessage($"RetryCount: {RetryCount}", typeof(Settings));
     }
 
     /// <summary>

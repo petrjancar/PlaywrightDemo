@@ -5,13 +5,18 @@
 - configuration (`.runsettings` file)
 - logging (options: `true`, `false`)
 - screenshots (options: `true`, `false`)
-- tracing (options: `never`, `on error`, `always`)
+- tracing (options: `Never`, `OnFail`, `Always`)
 - retry logic
-- parallel execution (only `ParallelScope.Self` is supported)
 - Page Object Model pattern
 - additional utilities
 - generate report from test results
 - easy setup, suitable for CI/CD
+
+## Limitations
+- video recording support is not implemented
+- parallel execution:
+	- only `ParallelScope.Self` is supported (Playwright limitation)
+	- when tests are run in parallel, logging is not working as expected
 
 ## How to use
 1. Run tests:

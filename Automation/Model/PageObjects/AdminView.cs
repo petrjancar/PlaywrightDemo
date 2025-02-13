@@ -23,9 +23,4 @@ public class AdminView : BasePage
     {
         return await Header.GetTextAsync();
     }
-
-    public async Task ExpectHeaderContentAsync(string expected)
-    {
-        await Assertions.Expect(Header.WrappedElement).ToHaveTextAsync(expected);
-    }
 }

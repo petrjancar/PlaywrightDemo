@@ -6,7 +6,6 @@ using Automation.Utilities.Attributes;
 namespace Automation.Tests.LoginTests;
 
 [TestFixture]
-[Parallelizable(ParallelScope.Self)]
 public class GeneratedLoginTests : BaseTest
 {
     [Test]

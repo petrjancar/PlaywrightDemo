@@ -18,6 +18,7 @@ public class BaseTest : PageTest
         if (Settings.Logging)
         {
             LoggingManager.SetUpTestLogging(Page);
+            Settings.LogSettings();
         }
         if (Settings.Tracing != TracingOptions.Never)
         {
