@@ -15,7 +15,7 @@
 ## Limitations
 - video recording support is not implemented
 - parallel execution:
-	- only `ParallelScope.Self` is supported (Playwright limitation)
+	- only `ParallelScope.Self` on TestFixture-s is supported (Playwright limitation)
 	- when tests are run in parallel, logging is not working as expected
 
 ## How to use

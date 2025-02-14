@@ -9,7 +9,7 @@ namespace Automation.Model.PageObjects;
 public class BasePage
 {
     public readonly IPage Page;
-    public string? Url; // required keyword in C# 11 ensures Url is set in derived classes
+    public string? Url;
 
     public BasePage(IPage page)
     {
@@ -32,7 +32,7 @@ public class BasePage
     }
 
     /// <summary>
-    /// Navigates to the page and waits for URL to match.
+    /// Waits for URL to match.
     /// </summary>
     public async Task ExpectUrlAsync()
     {
@@ -45,7 +45,7 @@ public class BasePage
     }
 
     /// <summary>
-    /// Navigates to the page and waits for title to match.
+    /// Waits for title to match.
     /// </summary>
     /// <param name="expected">The expected title.</param>
     public async Task ExpectTitleAsync(string expected)
