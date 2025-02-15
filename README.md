@@ -5,6 +5,7 @@
 - configuration (`.runsettings` file)
 - logging (options: `true`, `false`)
 - screenshots (options: `true`, `false`)
+- video recording (options: `Never`, `OnFail`, `Always`)
 - tracing (options: `Never`, `OnFail`, `Always`)
 - retry logic
 - Page Object Model pattern
@@ -13,7 +14,6 @@
 - easy setup, suitable for CI/CD
 
 ## Limitations
-- video recording support is not implemented
 - parallel execution:
 	- only `ParallelScope.Self` on TestFixture-s is supported (Playwright limitation)
 	- when tests are run in parallel, logging is not working as expected

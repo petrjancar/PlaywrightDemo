@@ -40,8 +40,5 @@ public class GlobalSetup
         {
             Directory.CreateDirectory(Settings.ResultsDirectory);
         }
-        Directory.CreateDirectory(Settings.LogsDirectory);
-        Directory.CreateDirectory(Settings.TracesDirectory);
-        Directory.CreateDirectory(Settings.ScreenshotsDirectory);
     }
 }

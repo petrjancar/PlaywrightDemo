@@ -122,6 +122,7 @@ public static class ReportGenerator
 
                 RetrieveAssociatedFiles(testCase.Traces, resultsDirectory, "Traces", fixtureModel.Name, testName);
                 RetrieveAssociatedFiles(testCase.Logs, resultsDirectory, "Logs", fixtureModel.Name, testName);
+                RetrieveAssociatedFiles(testCase.Videos, resultsDirectory, "Videos", fixtureModel.Name, testName);
                 RetrieveAssociatedFiles(testCase.Screenshots, resultsDirectory, "Screenshots", fixtureModel.Name, testName);
             }
         }

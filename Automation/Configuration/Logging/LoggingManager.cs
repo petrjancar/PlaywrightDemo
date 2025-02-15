@@ -82,6 +82,11 @@ public static class LoggingManager
     /// <param name="level"></param>
     public static void LogMessage(string message, Type originator, LogLevel level = LogLevel.Information)
     {
+        if (!Settings.Logging)
+        {
+            return;
+        }
+
         var originatorName = originator.FullName;
 
         Logger.Log(level, "{Originator}: {Message}", originatorName, message);

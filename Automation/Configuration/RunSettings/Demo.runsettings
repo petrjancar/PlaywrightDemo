@@ -19,7 +19,8 @@
  <TestRunParameters>   
     <Parameter name="ResultsDirectory" value="C:\\TestResults" />
     <Parameter name="Logging" value="true" />
-    <Parameter name="Tracing" value="OnFail" />
+    <Parameter name="Tracing" value="Always" />
+    <Parameter name="VideoRecording" value="Always" />
     <Parameter name="Screenshots" value="true" />
     <Parameter name="RetryCount" value="2" /> 
   </TestRunParameters>

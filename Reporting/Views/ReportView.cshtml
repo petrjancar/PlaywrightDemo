@@ -102,6 +102,7 @@
                         <th>Message</th>
                         <th>Logs</th>
                         <th>Traces</th>
+                        <th>Videos</th>
                         <th>Screenshots</th>
                     </tr>
                     @foreach (var testCase in fixture.TestCases)
@@ -125,6 +126,12 @@
                                     <a href="@trace">@fileName</a>
                                 }
                             </td>
+                            <td>
+                                @foreach (var video in testCase.Videos)
+                                {
+                                    var fileName = System.IO.Path.GetFileName(video);
+                                    <a href="@video">@fileName</a>
+                                }
                             <td>
                                 @foreach (var screenshot in testCase.Screenshots)
                                 {

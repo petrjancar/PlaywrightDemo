@@ -19,4 +19,5 @@ public class TestCaseModel
     public List<string> Traces { get; set; } = new();
     public List<string> Logs { get; set; } = new();
     public List<string> Screenshots { get; set; } = new();
+    public List<string> Videos { get; set; } = new();
 }
