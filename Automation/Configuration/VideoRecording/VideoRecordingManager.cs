@@ -4,11 +4,21 @@ using NUnit.Framework.Interfaces;
 
 namespace Automation.Configuration.VideoRecording;
 
+/// <summary>
+/// This class contains methods to setup and stop video recording.
+/// Produces a video file in .webm format, that can be used to analyze the test execution.
+/// User can configure video Width and Height.
+/// </summary>
 public class VideoRecordingManager
 {
     public static int Width { get; set; } = 1280;
     public static int Height { get; set; } = 720;
 
+    /// <summary>
+    /// Returns a new browser context with video recording enabled.
+    /// </summary>
+    /// <param name="browser"></param>
+    /// <returns>New browser context.</returns>
     public static Task<IBrowserContext> GetVideoContextAsync(IBrowser browser)
     {
         var videoFileDirectory = Path.Combine(Settings.VideosDirectory, TestRunContext.TestFixture);
@@ -20,6 +30,14 @@ public class VideoRecordingManager
         });
     }
 
+    /// <summary>
+    /// Stops video recording.
+    /// If the video recording option is set to Always, the video file is saved.
+    /// If the video recording option is set to OnFail, the video file is saved only if the test fails.
+    /// </summary>
+    /// <param name="context"></param>
+    /// <param name="page"></param>
+    /// <returns></returns>
     public static async Task StopVideoRecordingAsync(IBrowserContext context, IPage page)
     {
         await context.CloseAsync();
