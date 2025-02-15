@@ -4,7 +4,7 @@ using NUnit.Framework.Interfaces;
 
 namespace Automation.Configuration.VideoRecording;
 
-public class VideoManager
+public class VideoRecordingManager
 {
     public static int Width { get; set; } = 1280;
     public static int Height { get; set; } = 720;
@@ -26,7 +26,7 @@ public class VideoManager
    
         var videoPath = await GetVideoPathAsync(page);
 
-        if (Settings.VideoRecording == VideoOptions.OnFail)
+        if (Settings.VideoRecording == VideoRecordingOptions.OnFail)
         {
             var testResult = TestContext.CurrentContext.Result.Outcome;
             if (testResult != ResultState.Error && testResult != ResultState.Failure)

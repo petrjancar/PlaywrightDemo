@@ -17,7 +17,7 @@ public static class Settings
     public static string ScreenshotsDirectory => Path.Combine(ResultsDirectory, "Screenshots");
     public static bool Logging { get; set; } = true;
     public static TracingOptions Tracing { get; set; } = TracingOptions.Always;
-    public static VideoOptions VideoRecording { get; set; } = VideoOptions.Always;
+    public static VideoRecordingOptions VideoRecording { get; set; } = VideoRecordingOptions.Always;
     public static bool Screenshots { get; set; } = true;
     public static int RetryCount { get; set; } = 2;
 
@@ -33,7 +33,7 @@ public static class Settings
         ResultsDirectory = resultsDirectory ?? ResultsDirectory;
         Logging = bool.TryParse(logging, out var loggingResult) ? loggingResult : Logging;
         Tracing = Enum.TryParse(tracing, out TracingOptions tracingResult) ? tracingResult : Tracing;
-        VideoRecording = Enum.TryParse(videoRecording, out VideoOptions videoRecordingResult) ? videoRecordingResult : VideoRecording;
+        VideoRecording = Enum.TryParse(videoRecording, out VideoRecordingOptions videoRecordingResult) ? videoRecordingResult : VideoRecording;
         Screenshots = bool.TryParse(screenshots, out var screenshotsResult) ? screenshotsResult : Screenshots;
         RetryCount = int.TryParse(retryCount, out var retryCountResult) ? retryCountResult : RetryCount;
     }

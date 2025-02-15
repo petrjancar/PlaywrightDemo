@@ -10,7 +10,7 @@ using Automation.Configuration;
 namespace Automation.Tests.LoginTests;
 
 [TestFixture]
-public class PageObjectLoginTests : BaseTest
+public class LoginTests : BaseTest
 {
     [Test]
     [Category(TestCategories.Smoke)]

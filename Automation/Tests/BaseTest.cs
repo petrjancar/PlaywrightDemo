@@ -20,9 +20,9 @@ public class BaseTest : BrowserTest
     [SetUp]
     public async Task SetUp()
     {      
-        if (Settings.VideoRecording != VideoOptions.Never)
+        if (Settings.VideoRecording != VideoRecordingOptions.Never)
         {
-            Context = await VideoManager.GetVideoContextAsync(Browser);
+            Context = await VideoRecordingManager.GetVideoContextAsync(Browser);
         }
         else
         {
@@ -48,9 +48,9 @@ public class BaseTest : BrowserTest
         {
             await TracingManager.StopTracingAsync(Context);
         }
-        if (Settings.VideoRecording != VideoOptions.Never)
+        if (Settings.VideoRecording != VideoRecordingOptions.Never)
         {
-            await VideoManager.StopVideoRecordingAsync(Context, Page);
+            await VideoRecordingManager.StopVideoRecordingAsync(Context, Page);
         }
     }
 
