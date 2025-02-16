@@ -8,7 +8,7 @@ using Microsoft.Playwright;
 namespace Automation.Tests;
 
 /// <summary>
-/// BaseTest class is the base class for all test classes in the project.
+/// Base class for all test classes in the project.
 /// It contains the SetUp and TearDown methods that are executed before
 /// and after each test method.
 /// </summary>

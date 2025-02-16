@@ -7,7 +7,7 @@ using Serilog.Extensions.Logging;
 namespace Automation.Configuration.Logging;
 
 /// <summary>
-/// This class contains methods to set up logging for the test run.
+/// Contains methods to set up logging for the test run.
 /// Uses a generic ILogger to log messages to a file.
 /// User can configure the minimum log level, whether to log requests, responses, and page errors.
 /// </summary>
@@ -49,7 +49,7 @@ public static class LoggingManager
     }
 
     /// <summary>
-    /// This method sets up logging for current test.
+    /// Sets up logging for current test.
     /// </summary>
     /// <param name="page"></param>
     /// <param name="logger">Optional custom logger. If null, default Serilog logger will be used.</param>
@@ -75,7 +75,7 @@ public static class LoggingManager
     }
 
     /// <summary>
-    /// This method logs a message with the specified log level.
+    /// Logs a message with the specified log level.
     /// </summary>
     /// <param name="message"></param>
     /// <param name="originator"></param>

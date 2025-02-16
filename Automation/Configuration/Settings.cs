@@ -5,7 +5,7 @@ using Automation.Configuration.VideoRecording;
 namespace Automation.Configuration;
 
 /// <summary>
-/// This class contains settings that can be used to configure the test run.
+/// Contains settings that can be used to configure the test run.
 /// The settings can be set in the .runsettings file.
 /// </summary>
 public static class Settings
@@ -39,7 +39,7 @@ public static class Settings
     }
 
     /// <summary>
-    /// This method logs all settings.
+    /// Logs all settings.
     /// </summary>
     public static void LogSettings()
     {
@@ -55,7 +55,7 @@ public static class Settings
     }
 
     /// <summary>
-    /// This method is used to force the static constructor to run.
+    /// Use to force the static constructor to run.
     /// </summary>
     public static void Initialize()
     {

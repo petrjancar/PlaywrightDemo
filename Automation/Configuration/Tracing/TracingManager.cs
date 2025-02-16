@@ -5,7 +5,7 @@ using NUnit.Framework.Interfaces;
 namespace Automation.Configuration.Tracing;
 
 /// <summary>
-/// This class contains methods to start and stop tracing.
+/// Contains methods to start and stop tracing.
 /// Produces a trace zip file that can be used to analyze the test execution.
 /// The trace zip file can be inspected on https://trace.playwright.dev/.
 /// User can configure whether to include screenshots, snapshots, and sources in the trace.

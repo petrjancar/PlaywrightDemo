@@ -3,7 +3,7 @@ using Automation.Configuration;
 namespace Automation.Tests;
 
 /// <summary>
-/// GlobalSetup class is the global setup class for the project.
+/// Global setup class for the project.
 /// It contains the OneTimeSetUp and OneTimeTearDown methods that are executed once 
 /// before and after all test fixtures.
 /// </summary>
