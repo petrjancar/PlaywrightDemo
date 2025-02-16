@@ -22,7 +22,7 @@ public class BaseTest : BrowserTest
     {      
         if (Settings.VideoRecording != VideoRecordingOptions.Never)
         {
-            Context = await VideoRecordingManager.GetVideoContextAsync(Browser);
+            Context = await Browser.NewContextAsync(VideoRecordingManager.VideoContextOptions());
         }
         else
         {
@@ -54,12 +54,13 @@ public class BaseTest : BrowserTest
         }
     }
 
+    /// <returns>New browser context options with the default configuration.</returns>
     public virtual BrowserNewContextOptions ContextOptions()
     {
         return new()
         {
             Locale = "en-US",
-            ColorScheme = ColorScheme.Light,
+            ColorScheme = ColorScheme.Light
         };
     }
 }

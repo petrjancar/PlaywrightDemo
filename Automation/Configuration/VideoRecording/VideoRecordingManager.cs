@@ -14,20 +14,18 @@ public class VideoRecordingManager
     public static int Width { get; set; } = 1280;
     public static int Height { get; set; } = 720;
 
-    /// <summary>
-    /// Returns a new browser context with video recording enabled.
-    /// </summary>
-    /// <param name="browser"></param>
-    /// <returns>New browser context.</returns>
-    public static Task<IBrowserContext> GetVideoContextAsync(IBrowser browser)
+    /// <returns>New browser context options with video recording enabled.</returns>
+    public static BrowserNewContextOptions VideoContextOptions()
     {
         var videoFileDirectory = Path.Combine(Settings.VideosDirectory, TestRunContext.TestFixture);
 
-        return browser.NewContextAsync(new BrowserNewContextOptions
+        return new()
         {
+            Locale = "en-US",
+            ColorScheme = ColorScheme.Light,
             RecordVideoDir = videoFileDirectory,
             RecordVideoSize = new RecordVideoSize { Width = Width, Height = Height }
-        });
+        };
     }
 
     /// <summary>
