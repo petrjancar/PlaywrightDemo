@@ -75,6 +75,17 @@ public static class LoggingManager
     }
 
     /// <summary>
+    /// Closes the logger and releases any resources held by it.
+    /// </summary>
+    public static void CloseLogger()
+    {
+        if (Log.Logger != null)
+        {
+            Log.CloseAndFlush();
+        }
+    }
+
+    /// <summary>
     /// Logs a message with the specified log level.
     /// </summary>
     /// <param name="message"></param>

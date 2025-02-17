@@ -29,21 +29,21 @@ public class BaseTest : BrowserTest
             Context = await Browser.NewContextAsync(ContextOptions());    
         }
         Page = await Context.NewPageAsync().ConfigureAwait(false);
-
-        if (Settings.Logging)
-        {
-            LoggingManager.SetUpTestLogging(Page);
-            Settings.LogSettings();
-        }       
+      
         if (Settings.Tracing != TracingOptions.Never)
         {
             await TracingManager.StartTracingAsync(Context);
         }
+        if (Settings.Logging)
+        {
+            LoggingManager.SetUpTestLogging(Page);
+            Settings.LogSettings();
+        } 
     }
  
     [TearDown]
     public async Task TearDown()
-    {
+    {   
         if (Settings.Tracing != TracingOptions.Never)
         {
             await TracingManager.StopTracingAsync(Context);
@@ -51,6 +51,10 @@ public class BaseTest : BrowserTest
         if (Settings.VideoRecording != VideoRecordingOptions.Never)
         {
             await VideoRecordingManager.StopVideoRecordingAsync(Context, Page);
+        }
+        if (Settings.Logging)
+        {
+            LoggingManager.CloseLogger();
         }
     }
 
