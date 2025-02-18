@@ -8,7 +8,6 @@ using Automation.Utilities.Helpers;
 using Automation.Configuration;
 using SixLabors.ImageSharp;
 using Automation.Utilities.Helpers.Performance;
-
 namespace Automation.Tests.LoginTests;
 
 [TestFixture]
@@ -98,5 +97,21 @@ public class LoginTests : BaseTest
 
         var performanceMetrics = await PerformanceHelper.CapturePerformanceMetrics(Page);
         LoggingManager.LogMessage($"Performance Metrics:\n{performanceMetrics}", typeof(LoginTests));
+    }
+
+    [Test]
+    [Category(TestCategories.Accessibility)]
+    [UIRetry]
+    public async Task LoginPageAccessibilityTest()
+    {
+        var adminLoginPage = new AdminLogin(Page);
+        await adminLoginPage.GotoAsync();
+
+        var accessibilityResults = await adminLoginPage.RunAccessibilityScanAsync();
+        LoggingManager.LogMessage($"Accessibility Violations:", typeof(LoginTests));
+        foreach (var violation in accessibilityResults.Violations)
+        {
+            LoggingManager.LogMessage($"{violation}", typeof(LoginTests));
+        }
     }
 }

@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Codeuctivity.ImageSharpCompare" Version="4.0.298" />
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="Deque.AxeCore.Playwright" Version="4.10.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Microsoft.Playwright.NUnit" Version="1.48.0" />

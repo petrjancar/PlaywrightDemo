@@ -1,4 +1,6 @@
 using Automation.Utilities.Helpers;
+using Deque.AxeCore.Commons;
+using Deque.AxeCore.Playwright;
 using Microsoft.Playwright;
 
 namespace Automation.Model.PageObjects;
@@ -62,6 +64,16 @@ public class BasePage
     public async Task TakeScreenshotAsync(string name)
     {
         await ScreenshotHelper.TakeScreenshotAsync(Page, name);
+    }
+
+    /// <summary>
+    /// Runs an accessibility scan on the page.
+    /// </summary>
+    /// <returns>AxeResult object.</returns>
+    public async Task<AxeResult> RunAccessibilityScanAsync()
+    {
+        var result = await Page.RunAxe();
+        return result;
     }
 }
 

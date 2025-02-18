@@ -11,7 +11,7 @@ public class TestCaseModel
     {
         "Passed" => "pass",
         "Failed" => "fail",
-        "Skipped" => "skip",
+        "NotExecuted" => "skip",
         _ => ""
     };
     public TimeSpan Duration { get; set; }

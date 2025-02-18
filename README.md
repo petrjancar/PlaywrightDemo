@@ -10,6 +10,7 @@
 - retry logic
 - visual comparisons
 - performance metrics
+- accessibility tests
 - Page Object Model pattern
 - generate report from test results
 - easy setup, suitable for CI/CD
@@ -20,7 +21,8 @@
 	- when tests are run in parallel, logging is not working as expected
 
 ## Dependencies
-- [Codeuctivity.ImageSharpCompare](https://www.nuget.org/packages/Codeuctivity.ImageSharpCompare/)
+- [Codeuctivity.ImageSharpCompare](https://www.nuget.org/packages/Codeuctivity.ImageSharpCompare/) - only for visual comparisons
+- [Deque.AxeCore.Playwright](https://www.nuget.org/packages/Deque.AxeCore.Playwright) - only for accessibility tests
 
 ## How to use
 1. Run tests:
