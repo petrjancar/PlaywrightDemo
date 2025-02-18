@@ -8,6 +8,7 @@ using Automation.Utilities.Helpers;
 using Automation.Configuration;
 using SixLabors.ImageSharp;
 using Automation.Utilities.Helpers.Performance;
+
 namespace Automation.Tests.LoginTests;
 
 [TestFixture]
