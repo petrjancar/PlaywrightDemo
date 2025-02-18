@@ -14,9 +14,9 @@ namespace Automation.Configuration.Logging;
 public static class LoggingManager
 {
     public static LogLevel MinimumLevel { get; set; } = LogLevel.Information;
-    public static bool LogRequests { get; set; } = true;    
-    public static bool LogResponses { get; set; } = true;
-    public static bool LogPageErrors { get; set; } = true;
+    public static bool LogRequests { get; set; } = false;    
+    public static bool LogResponses { get; set; } = false;
+    public static bool LogPageErrors { get; set; } = false;
 
     private static Microsoft.Extensions.Logging.ILogger? Logger;
 

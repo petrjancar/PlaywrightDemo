@@ -7,4 +7,5 @@ public static class TestCategories
 {
     public const string Smoke = "Smoke";
     public const string Regression = "Regression";
+    public const string Performance = "Performance";
 }

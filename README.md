@@ -8,8 +8,9 @@
 - video recording (options: `Never`, `OnFail`, `Always`)
 - tracing (options: `Never`, `OnFail`, `Always`)
 - retry logic
+- visual comparisons
+- performance metrics
 - Page Object Model pattern
-- additional utilities
 - generate report from test results
 - easy setup, suitable for CI/CD
 
@@ -17,6 +18,9 @@
 - parallel execution:
 	- only `ParallelScope.Self` on TestFixture-s is supported (Playwright limitation)
 	- when tests are run in parallel, logging is not working as expected
+
+## Dependencies
+- [Codeuctivity.ImageSharpCompare](https://www.nuget.org/packages/Codeuctivity.ImageSharpCompare/)
 
 ## How to use
 1. Run tests:

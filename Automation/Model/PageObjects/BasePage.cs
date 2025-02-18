@@ -1,3 +1,4 @@
+using Automation.Utilities.Helpers;
 using Microsoft.Playwright;
 
 namespace Automation.Model.PageObjects;
@@ -17,7 +18,7 @@ public class BasePage
     }
 
     /// <summary>
-    /// Navigates to the page.
+    /// Navigates to the page and waits for URL to match.
     /// </summary>
     /// <returns></returns>
     /// <exception cref="NullReferenceException"></exception>
@@ -29,6 +30,7 @@ public class BasePage
         }
 
         await Page.GotoAsync(Url);
+        await ExpectUrlAsync();
     }
 
     /// <summary>
@@ -51,6 +53,15 @@ public class BasePage
     public async Task ExpectTitleAsync(string expected)
     {
         await Assertions.Expect(Page).ToHaveTitleAsync(expected);
+    }
+
+    /// <summary>
+    /// Takes a screenshot of the page.
+    /// </summary>
+    /// <param name="name">The name of the screenshot.</param>
+    public async Task TakeScreenshotAsync(string name)
+    {
+        await ScreenshotHelper.TakeScreenshotAsync(Page, name);
     }
 }
 

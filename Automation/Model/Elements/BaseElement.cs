@@ -1,3 +1,4 @@
+using Automation.Utilities.Helpers;
 using Microsoft.Playwright;
 
 namespace Automation.Model.Elements;
@@ -15,5 +16,14 @@ public class BaseElement
     {
         Selector = selector;
         WrappedElement = page.Locator(selector);
+    }
+
+    /// <summary>
+    /// Takes a screenshot of the element.
+    /// </summary>
+    /// <param name="screenshotName">Name of the screenshot.</param>
+    public async Task TakeScreenshotAsync(string screenshotName)
+    {
+        await ScreenshotHelper.TakeScreenshotAsync(WrappedElement, screenshotName);
     }
 }
