@@ -12,24 +12,11 @@ namespace Automation.Tests;
 /// It contains the SetUp and TearDown methods that are executed before
 /// and after each test method.
 /// </summary>
-public class BaseTest : BrowserTest
+public class BaseTest : PageTest
 {
-    public IBrowserContext Context { get; private set; } = null!;
-    public IPage Page { get; private set; } = null!;
-
     [SetUp]
     public async Task SetUp()
-    {      
-        if (Settings.VideoRecording != VideoRecordingOptions.Never)
-        {
-            Context = await Browser.NewContextAsync(VideoRecordingManager.VideoContextOptions());
-        }
-        else
-        {
-            Context = await Browser.NewContextAsync(ContextOptions());    
-        }
-        Page = await Context.NewPageAsync().ConfigureAwait(false);
-      
+    {            
         if (Settings.Tracing != TracingOptions.Never)
         {
             await TracingManager.StartTracingAsync(Context);
@@ -39,6 +26,10 @@ public class BaseTest : BrowserTest
             LoggingManager.SetUpTestLogging(Page);
             Settings.LogSettings();
         } 
+        /*
+            For video recording initialization, see 
+            the overriden ContextOptions method below.
+        */
     }
  
     [TearDown]
@@ -51,20 +42,26 @@ public class BaseTest : BrowserTest
         if (Settings.VideoRecording != VideoRecordingOptions.Never)
         {
             await VideoRecordingManager.StopVideoRecordingAsync(Context, Page);
-        }
+        }      
         if (Settings.Logging)
         {
             LoggingManager.CloseLogger();
         }
     }
 
-    /// <returns>New browser context options with the default configuration.</returns>
-    public virtual BrowserNewContextOptions ContextOptions()
+    public override BrowserNewContextOptions ContextOptions()
     {
-        return new()
+        if (Settings.VideoRecording != VideoRecordingOptions.Never)
         {
-            Locale = "en-US",
-            ColorScheme = ColorScheme.Light
-        };
+            return VideoRecordingManager.VideoContextOptions();
+        }
+        else
+        {
+            return new()
+            {
+                Locale = "en-US",
+                ColorScheme = ColorScheme.Light,
+            };
+        }
     }
 }
