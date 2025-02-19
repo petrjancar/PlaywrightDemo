@@ -1,4 +1,5 @@
 using Automation.Utilities.Helpers;
+using Automation.Utilities.Helpers.Performance;
 using Deque.AxeCore.Commons;
 using Deque.AxeCore.Playwright;
 using Microsoft.Playwright;
@@ -74,6 +75,19 @@ public class BasePage
     {
         var result = await Page.RunAxe();
         return result;
+    }
+
+    /// <summary>
+    /// Captures performance metrics for the page.
+    /// The performance metrics are calculated relative to the navigation start time.
+    /// </summary>
+    /// <remarks>
+    /// Ensure that the page is fully loaded before calling this method.
+    /// </remarks>
+    /// <returns>PerformanceMetrics object.</returns>
+    public Task<PerformanceMetrics> GetPerformanceMetrics()
+    {
+        return PerformanceHelper.GetPerformanceMetricsAsync(Page);
     }
 }
 

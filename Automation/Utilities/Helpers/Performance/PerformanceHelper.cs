@@ -17,13 +17,13 @@ public class PerformanceHelper
     /// </remarks>
     /// <param name="page"></param>
     /// <returns>PerformanceMetrics object.</returns>
-    public static async Task<PerformanceMetrics> CapturePerformanceMetrics(IPage page)
+    public static async Task<PerformanceMetrics> GetPerformanceMetricsAsync(IPage page)
     {
-        var timing = await GetPerformanceTiming(page);
+        var timing = await GetPerformanceTimingAsync(page);
         return CalculateRelativeTimings(timing);
     }
 
-    private static async Task<JsonElement> GetPerformanceTiming(IPage page)
+    private static async Task<JsonElement> GetPerformanceTimingAsync(IPage page)
     {
         return await page.EvaluateAsync<JsonElement>(@"
             () => {

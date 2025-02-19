@@ -1,4 +1,6 @@
 using Automation.Utilities.Helpers;
+using Deque.AxeCore.Commons;
+using Deque.AxeCore.Playwright;
 using Microsoft.Playwright;
 
 namespace Automation.Model.Elements;
@@ -25,5 +27,15 @@ public class BaseElement
     public async Task TakeScreenshotAsync(string screenshotName)
     {
         await ScreenshotHelper.TakeScreenshotAsync(WrappedElement, screenshotName);
+    }
+
+    /// <summary>
+    /// Runs an accessibility scan on the element.
+    /// </summary>
+    /// <returns>AxeResult object.</returns>
+    public async Task<AxeResult> RunAccessibilityScanAsync()
+    {
+        var result = await WrappedElement.RunAxe();
+        return result;
     }
 }
