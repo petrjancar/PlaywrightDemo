@@ -85,7 +85,7 @@ public class BasePage
     /// Ensure that the page is fully loaded before calling this method.
     /// </remarks>
     /// <returns>PerformanceMetrics object.</returns>
-    public Task<PerformanceMetrics> GetPerformanceMetrics()
+    public Task<PerformanceMetrics> GetPerformanceMetricsAsync()
     {
         return PerformanceHelper.GetPerformanceMetricsAsync(Page);
     }

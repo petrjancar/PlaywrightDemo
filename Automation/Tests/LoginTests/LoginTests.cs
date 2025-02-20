@@ -96,7 +96,7 @@ public class LoginTests : BaseTest
         var adminLoginPage = new AdminLogin(Page);
         await adminLoginPage.GotoAsync();
 
-        var performanceMetrics = await adminLoginPage.GetPerformanceMetrics();
+        var performanceMetrics = await adminLoginPage.GetPerformanceMetricsAsync();
         LoggingManager.LogMessage($"Performance Metrics:\n{performanceMetrics}", typeof(LoginTests));
     }
 
