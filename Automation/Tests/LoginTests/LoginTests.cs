@@ -7,7 +7,6 @@ using Automation.Utilities.Waiters;
 using Automation.Utilities.Helpers;
 using Automation.Configuration;
 using SixLabors.ImageSharp;
-using Automation.Utilities.Helpers.Performance;
 
 namespace Automation.Tests.LoginTests;
 
@@ -29,19 +28,18 @@ public class LoginTests : BaseTest
         });
 
         var adminViewPage = new AdminView(Page);
-        /*
-            - we could just write `Assert.That(await adminViewPage.HeaderContentAsync(), Is.EqualTo("Admin View"));`, but
-            this way test may potentially become flaky, because it may fail if the page is not loaded yet
-            - Playwright has a built-in `Expect` class that can be used to wait for a condition to be true, but
-            it can not be used directly in tests, as elements `Locator` is not accessible from the test
-            - so we use `PollingWaiter` to wait for the condition to be true (in `Assert.That` for better readability)
-        */
-        Assert.That(await PollingWaiter.TryWaitAsync(async () => await adminViewPage.HeaderContentAsync() == "Admin View"), Is.True);
+        Assert.That(
+            async () => await adminViewPage.HeaderContentAsync() == "Admin View",
+            Is.True.After(WaitTime.Short.Milliseconds, PollingInterval.Default.Milliseconds)
+        );
         await adminViewPage.Navigation.LogoutAsync();
 
         adminLoginPage = new AdminLogin(Page);
         await adminLoginPage.TakeScreenshotAsync("AdminLoginPage");
-        Assert.That(await PollingWaiter.TryWaitAsync(async () => await adminLoginPage.HeaderContentAsync() == "Admin Login"), Is.True);
+        Assert.That(
+            async () => await adminLoginPage.HeaderContentAsync() == "Admin Login", 
+            Is.True.After(WaitTime.Short.Milliseconds, PollingInterval.Default.Milliseconds)
+        );
     }
 
     [Test]

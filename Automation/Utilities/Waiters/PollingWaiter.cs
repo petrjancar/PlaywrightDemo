@@ -5,9 +5,6 @@ namespace Automation.Utilities.Waiters;
 /// <summary>
 /// Helper class for polling waiting operations.
 /// </summary>
-/// <remarks>
-/// Expected usage is mostly in Asserts.
-/// </remarks>
 public class PollingWaiter
 {
     private static readonly TimeSpan DefaultTimeout = TimeSpan.FromSeconds(5);
