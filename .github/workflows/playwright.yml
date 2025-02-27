@@ -7,8 +7,7 @@ on:
   workflow_dispatch: # Manual execution from GitHub Actions web UI
 
 jobs:
-  test:
-    timeout-minutes: 60
+  build:
     runs-on: windows-latest
 
     steps:
@@ -26,13 +25,23 @@ jobs:
       - name: Build solution
         run: dotnet build --configuration Release --no-restore
 
-      - name: Debug - list files
-        run: Get-ChildItem -Recurse
-        shell: pwsh
-
       - name: Install browsers
-        run: pwsh .\Automation\bin\Release\net8.0\playwright.ps1 install --with-deps
+        run: pwsh .\Automation\bin\Release\net8.0\playwright.ps1 install --with-deps chromium # If no specific browser is passed as the last parameter, all browsers are installed
+        
+  test:
+    needs: build
+    runs-on: windows-latest
+    timeout-minutes: 10
 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+          
       - name: Run Playwright tests
         run: dotnet test --settings .\Automation\Configuration\RunSettings\Demo.runsettings
 
