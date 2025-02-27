@@ -26,6 +26,10 @@ jobs:
       - name: Build solution
         run: dotnet build --configuration Release --no-restore
 
+      - name: Debug - list files
+        run: Get-ChildItem -Recurse
+        shell: pwsh
+
       - name: Install browsers
         run: pwsh .\Automation\bin\Debug\net8.0\playwright.ps1 install --with-deps
 
