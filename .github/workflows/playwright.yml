@@ -30,7 +30,7 @@ jobs:
         run: pwsh .\Automation\bin\Release\net8.0\playwright.ps1 install --with-deps chromium # If no specific browser is passed as the last parameter, all browsers are installed
                 
       - name: Run Playwright tests
-        run: dotnet test --settings .\Automation\Configuration\RunSettings\Demo.runsettings
+        run: dotnet test --settings .\Automation\Configuration\RunSettings\demo-chromium.runsettings
 
       - name: Generate report
         run: dotnet run --project .\Reporting\Reporting.csproj -- "C:\TestResults\test.xml"

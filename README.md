@@ -31,6 +31,6 @@
 ## How to use
 
 1. Run tests:
-   - `dotnet test --settings .\Automation\Configuration\RunSettings\Demo.runsettings`
+   - `dotnet test --settings .\Automation\Configuration\RunSettings\demo-chromium.runsettings`
 2. Generate report:
    - `dotnet run --project .\Reporting\Reporting.csproj -- "C:\TestResults\test.xml"`

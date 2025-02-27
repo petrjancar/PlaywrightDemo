@@ -51,17 +51,10 @@ public class LoginTests : BaseTest
         await adminLoginPage.GotoAsync();
         
         using var actual = Image.Load(await Page.ScreenshotAsync());
-        /*
-            - for Demo purposes, we are using the images saved in the `Automation/Tests/TestData/Images` folder
-            - please replace the path below with the actual path to the `CompareLoginPagePass.png` image
-        */
-        string? expectedPath = null;
-        if (expectedPath == null)
-        {
-            Assert.Ignore("Please provide the path to the `CompareLoginPageFail.png` image");
-        }
+        // for Demo purposes, we are using the images saved in the `Automation/Tests/TestData/Images` folder
+        string expectedPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Tests\TestData\Images\CompareLoginPagePass.png");
         using var expected = Image.Load(expectedPath);
-        Assert.That(ImageCompareHelper.ImagesAreEqual(actual, expected), Is.True);
+        Assert.That(ImageCompareHelper.ImagesAreEqual(actual, expected, 90), Is.True);
     }
 
     [Test]
@@ -73,15 +66,8 @@ public class LoginTests : BaseTest
         await adminLoginPage.GotoAsync();
         
         using var actual = Image.Load(await Page.ScreenshotAsync());
-        /*
-            - for Demo purposes, we are using the images saved in the `Automation/Tests/TestData/Images` folder
-            - please replace the path below with the actual path to the `CompareLoginPageFail.png` image
-        */
-        string? expectedPath = null;
-        if (expectedPath == null)
-        {
-            Assert.Ignore("Please provide the path to the `CompareLoginPageFail.png` image");
-        }
+        // for Demo purposes, we are using the images saved in the `Automation/Tests/TestData/Images` folder
+        string expectedPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Tests\TestData\Images\CompareLoginPageFail.png");
         using var expected = Image.Load(expectedPath);
         Assert.That(ImageCompareHelper.ImagesAreEqual(actual, expected), Is.True);
     }
