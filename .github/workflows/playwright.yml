@@ -1,0 +1,42 @@
+name: Playwright Tests
+
+on:
+  push:
+    branches:
+      - main # Auto run on push to branch main
+  workflow_dispatch: # Manual execution from GitHub Actions web UI
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build solution
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Install browsers
+        run: pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
+
+      - name: Run Playwright tests
+        run: dotnet test --settings .\Automation\Configuration\RunSettings\Demo.runsettings
+
+      - name: Generate report
+        run: dotnet run --project .\Reporting\Reporting.csproj -- "C:\TestResults\test.xml"
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestResults
+          path: C:\TestResults
