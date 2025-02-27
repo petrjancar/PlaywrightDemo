@@ -27,7 +27,7 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Install browsers
-        run: pwsh bin/Debug/net8.0/playwright.ps1 install --with-deps
+        run: pwsh .\Automation\bin\Debug\net8.0\playwright.ps1 install --with-deps
 
       - name: Run Playwright tests
         run: dotnet test --settings .\Automation\Configuration\RunSettings\Demo.runsettings
