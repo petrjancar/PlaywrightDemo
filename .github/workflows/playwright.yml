@@ -35,8 +35,8 @@ jobs:
           key: ${{ runner.os }}-build-${{ hashFiles('**/*.csproj') }}
 
   test:
-    runs-on: windows-latest
     needs: build
+    runs-on: windows-latest
     timeout-minutes: 30
 
     steps:
@@ -54,7 +54,7 @@ jobs:
           path: |
             Automation/bin/Release/net8.0
             Reporting/bin/Release/net8.0
-          key: ${{ runner.os }}-build-${{ hashFiles('**/csproj') }}
+          key: ${{ runner.os }}-build-${{ hashFiles('**/*.csproj') }}
 
       - name: Install browsers
         run: pwsh .\Automation\bin\Release\net8.0\playwright.ps1 install --with-deps chromium
