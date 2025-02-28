@@ -60,7 +60,7 @@ public class LoginTests : BaseTest
     [Test]
     [Category(TestCategories.Smoke)]
     [UIRetry]
-    [Ignore("Ignoring this test due to GitHub Actions")]
+    //[Ignore("Ignoring this test due to GitHub Actions")]
     public async Task CompareLoginPageScreenshotsFailTest()
     {
         var adminLoginPage = new AdminLogin(Page);
