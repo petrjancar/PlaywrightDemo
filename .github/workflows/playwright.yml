@@ -33,9 +33,11 @@ jobs:
         run: dotnet test --settings .\Automation\Configuration\RunSettings\demo-chromium.runsettings
 
       - name: Generate report
-        run: dotnet run --project .\Reporting\Reporting.csproj -- "C:\TestResults\test.xml"
+        if: always()
+        run: dotnet run --project .\Reporting\Reporting.csproj -- "C:\TestResults\test.xml" 
 
       - name: Upload test results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: TestResults
