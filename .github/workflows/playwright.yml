@@ -7,9 +7,9 @@ on:
   workflow_dispatch: # Manual execution from GitHub Actions web UI
 
 jobs:
-  build-and-test:
+  build:
     runs-on: windows-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
@@ -27,14 +27,44 @@ jobs:
         run: dotnet build --configuration Release --no-restore
 
       - name: Install browsers
-        run: pwsh .\Automation\bin\Release\net8.0\playwright.ps1 install --with-deps chromium # If no specific browser is passed as the last parameter, all browsers are installed
-                
+        run: pwsh .\Automation\bin\Release\net8.0\playwright.ps1 install --with-deps chromium
+
+      - name: Cache Build Artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            Automation/bin/Release/net8.0
+            Reporting/bin/Release/net8.0
+          key: ${{ runner.os }}-build-${{ hashFiles('**/csproj') }}
+
+  test:
+    runs-on: windows-latest
+    needs: build
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8.0
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore Build Artifacts
+        uses: actions/cache@v4
+        with:
+          path: |
+            Automation/bin/Release/net8.0
+            Reporting/bin/Release/net8.0
+          key: ${{ runner.os }}-build-${{ hashFiles('**/csproj') }}
+
       - name: Run Playwright tests
         run: dotnet test --settings .\Automation\Configuration\RunSettings\demo-chromium.runsettings
 
       - name: Generate report
         if: always()
-        run: dotnet run --project .\Reporting\Reporting.csproj -- "C:\TestResults\test.xml" 
+        run: dotnet run --project .\Reporting\Reporting.csproj -- "C:\TestResults\test.xml"
 
       - name: Upload test results
         if: always()
