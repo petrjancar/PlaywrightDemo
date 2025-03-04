@@ -6,7 +6,7 @@ namespace Automation.Model.PageFragments;
 /// Base class for all page fragments.
 /// Page fragments are reusable components that are used in multiple pages.
 /// </summary>
-public class BaseFragment
+public abstract class BaseFragment
 {
     public readonly IPage Page;
 

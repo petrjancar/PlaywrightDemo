@@ -1,4 +1,4 @@
-namespace Automation.Model.FormData;
+namespace Automation.Model.PageObjects.AdminLoginPage.Data;
 
 public struct AdminLoginFormData
 {

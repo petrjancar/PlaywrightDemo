@@ -10,10 +10,10 @@ namespace Automation.Model.PageObjects;
 /// Base class for all page objects.
 /// Page objects are classes that represent a page in the application.
 /// </summary>
-public class BasePage
+public abstract class BasePage
 {
     public readonly IPage Page;
-    public string? Url;
+    public abstract string Url { get; }
 
     public BasePage(IPage page)
     {

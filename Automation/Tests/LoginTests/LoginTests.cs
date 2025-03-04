@@ -1,12 +1,12 @@
-using Automation.Model.PageObjects;
 using Automation.Model.Environment;
-using Automation.Model.FormData;
 using Automation.Configuration.Logging;
 using Automation.Utilities.Attributes;
-using Automation.Utilities.Waiters;
 using Automation.Utilities.Helpers;
 using Automation.Configuration;
 using SixLabors.ImageSharp;
+using Automation.Model.PageObjects.AdminLoginPage;
+using Automation.Model.PageObjects.AdminLoginPage.Data;
+using Automation.Model.PageObjects.AdminViewPage;
 
 namespace Automation.Tests.LoginTests;
 
@@ -18,7 +18,7 @@ public class LoginTests : BaseTest
     [UIRetry]
     public async Task LoginLogoutTest()
     {
-        var adminLoginPage = new AdminLogin(Page);
+        var adminLoginPage = new AdminLoginPage(Page);
         await adminLoginPage.GotoAsync();
         await adminLoginPage.LoginAsync(new AdminLoginFormData
         {
@@ -27,19 +27,13 @@ public class LoginTests : BaseTest
             RememberMe = false
         });
 
-        var adminViewPage = new AdminView(Page);
-        Assert.That(
-            async () => await adminViewPage.HeaderContentAsync() == "Admin View",
-            Is.True.After(WaitTime.Short.Milliseconds, PollingInterval.Default.Milliseconds)
-        );
+        var adminViewPage = new AdminViewPage(Page);
+        await adminViewPage.AssertHeaderContentAsync("Admin View");
         await adminViewPage.Navigation.LogoutAsync();
 
-        adminLoginPage = new AdminLogin(Page);
+        adminLoginPage = new AdminLoginPage(Page);
         await adminLoginPage.TakeScreenshotAsync("AdminLoginPage");
-        Assert.That(
-            async () => await adminLoginPage.HeaderContentAsync() == "Admin Login", 
-            Is.True.After(WaitTime.Short.Milliseconds, PollingInterval.Default.Milliseconds)
-        );
+        await adminLoginPage.AssertHeaderContentAsync("Admin Login");
     }
 
     [Test]
@@ -47,7 +41,7 @@ public class LoginTests : BaseTest
     [UIRetry]
     public async Task CompareLoginPageScreenshotsPassTest()
     {
-        var adminLoginPage = new AdminLogin(Page);
+        var adminLoginPage = new AdminLoginPage(Page);
         await adminLoginPage.GotoAsync();
         
         using var actual = Image.Load(await Page.ScreenshotAsync());
@@ -63,7 +57,7 @@ public class LoginTests : BaseTest
     [Ignore("Ignoring this test due to GitHub Actions")]
     public async Task CompareLoginPageScreenshotsFailTest()
     {
-        var adminLoginPage = new AdminLogin(Page);
+        var adminLoginPage = new AdminLoginPage(Page);
         await adminLoginPage.GotoAsync();
         
         using var actual = Image.Load(await Page.ScreenshotAsync());
@@ -74,23 +68,11 @@ public class LoginTests : BaseTest
     }
 
     [Test]
-    [Category(TestCategories.Performance)]
-    [UIRetry]
-    public async Task LoginPagePerformanceTest()
-    {
-        var adminLoginPage = new AdminLogin(Page);
-        await adminLoginPage.GotoAsync();
-
-        var performanceMetrics = await adminLoginPage.GetPerformanceMetricsAsync();
-        LoggingManager.LogMessage($"Performance Metrics:\n{performanceMetrics}", typeof(LoginTests));
-    }
-
-    [Test]
     [Category(TestCategories.Accessibility)]
     [UIRetry]
     public async Task LoginPageAccessibilityTest()
     {
-        var adminLoginPage = new AdminLogin(Page);
+        var adminLoginPage = new AdminLoginPage(Page);
         await adminLoginPage.GotoAsync();
 
         var accessibilityResults = await adminLoginPage.RunAccessibilityScanAsync();
@@ -99,5 +81,17 @@ public class LoginTests : BaseTest
         {
             LoggingManager.LogMessage($"{violation}", typeof(LoginTests));
         }
+    }
+
+    [Test]
+    [Category(TestCategories.Performance)]
+    [UIRetry]
+    public async Task LoginPagePerformanceTest()
+    {
+        var adminLoginPage = new AdminLoginPage(Page);
+        await adminLoginPage.GotoAsync();
+
+        var performanceMetrics = await adminLoginPage.GetPerformanceMetricsAsync();
+        LoggingManager.LogMessage($"Performance Metrics:\n{performanceMetrics}", typeof(LoginTests));
     }
 }

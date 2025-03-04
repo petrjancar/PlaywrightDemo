@@ -12,7 +12,7 @@ namespace Automation.Tests;
 /// It contains the SetUp and TearDown methods that are executed before
 /// and after each test method.
 /// </summary>
-public class BaseTest : PageTest
+public abstract class BaseTest : PageTest
 {
     [SetUp]
     public async Task SetUp()

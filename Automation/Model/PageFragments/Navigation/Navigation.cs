@@ -1,9 +1,9 @@
 using Microsoft.Playwright;
 using Automation.Model.Elements;
 
-namespace Automation.Model.PageFragments;
+namespace Automation.Model.PageFragments.Navigation;
 
-public class Navigation : BaseFragment
+public partial class Navigation : BaseFragment
 {
     private readonly Button Lists;
     private readonly Button AdminLogin;
@@ -14,20 +14,5 @@ public class Navigation : BaseFragment
         Lists = new Button(page, "#navtodolists");
         AdminLogin = new Button(page, "#navadminlogin");
         Logout = new Button(page, "#navadminlogout");
-    }
-
-    public async Task GoToListsAsync()
-    {
-        await Lists.ClickAsync();
-    }
-
-    public async Task GoToAdminLoginAsync()
-    {
-        await AdminLogin.ClickAsync();
-    }
-
-    public async Task LogoutAsync()
-    {
-        await Logout.ClickAsync();
     }
 }
