@@ -13,7 +13,6 @@
 - visual comparisons
 - accessibility tests
 - performance metrics
-- benchmark tests
 - Page Object Model pattern
 - generate report from test results
 - easy setup, suitable for CI/CD
