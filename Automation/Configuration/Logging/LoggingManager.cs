@@ -35,9 +35,9 @@ public static class LoggingManager
     }
 
     /// <summary>
-    /// Creates a logger for the specific test based on the test name.
+    /// Creates a Serilog logger for the specific test based on the test name.
     /// </summary>
-    private static Microsoft.Extensions.Logging.ILogger CreateLoggerForTest(string testName)
+    private static Microsoft.Extensions.Logging.ILogger CreateSerilogLogger(string testName)
     {
         var testSuiteName = TestRunContext.TestFixture;
         var logFileDirectory = Path.Combine(Settings.LogsDirectory, testSuiteName);
@@ -57,23 +57,29 @@ public static class LoggingManager
     }
 
     /// <summary>
+    /// Creates a logger for the specific test based on the test name.
+    /// </summary>
+    private static Microsoft.Extensions.Logging.ILogger CreateLoggerForTest(string testName)
+    {
+        var logger = CreateSerilogLogger(testName);
+        return logger;
+    }
+
+    /// <summary>
     /// Retrieves or creates a logger for the current test based on the test name.
     /// </summary>
     private static Microsoft.Extensions.Logging.ILogger GetLogger()
     {
-        var testName = TestRunContext.TestName;
-
-        return Loggers.GetOrAdd(testName, CreateLoggerForTest);
+        return Loggers.GetOrAdd(TestRunContext.TestName, CreateLoggerForTest);
     }
 
     /// <summary>
     /// Sets up logging for the current test.
     /// </summary>
     /// <param name="page">The Playwright page to log events from.</param>
-    /// <param name="logger">The logger to use for logging. If not provided, a new default Serilog logger is created.</param>
-    public static void SetUpTestLogging(IPage page, Microsoft.Extensions.Logging.ILogger? logger = null)
+    public static void SetUpTestLogging(IPage page)
     {
-        var testLogger = logger ?? GetLogger();
+        var testLogger = GetLogger();
 
         if (LogRequests)
         {
