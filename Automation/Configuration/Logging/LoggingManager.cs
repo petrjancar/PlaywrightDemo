@@ -3,24 +3,24 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Playwright;
 using Serilog;
 using Serilog.Extensions.Logging;
+using System.Collections.Concurrent;
 
 namespace Automation.Configuration.Logging;
 
 /// <summary>
-/// Contains methods to set up logging for the test run.
-/// Uses a generic ILogger to log messages to a file.
+/// Manages logging for the test run, ensuring thread safety and isolated logs.
 /// User can configure the minimum log level, whether to log requests, responses, and page errors.
 /// </summary>
 public static class LoggingManager
 {
     public static LogLevel MinimumLevel { get; set; } = LogLevel.Information;
-    public static bool LogRequests { get; set; } = false;    
+    public static bool LogRequests { get; set; } = false;
     public static bool LogResponses { get; set; } = false;
     public static bool LogPageErrors { get; set; } = false;
 
-    private static Microsoft.Extensions.Logging.ILogger? Logger;
+    private static readonly ConcurrentDictionary<string, Microsoft.Extensions.Logging.ILogger> Loggers = new();
 
-    private static Serilog.Events.LogEventLevel ConvertLogLevel(LogLevel logLevel)
+    private static Serilog.Events.LogEventLevel ConvertLogLevelToSerilogLevel(LogLevel logLevel)
     {
         return logLevel switch
         {
@@ -34,63 +34,91 @@ public static class LoggingManager
         };
     }
 
-    private static Microsoft.Extensions.Logging.ILogger CreateDefaultLogger()
+    /// <summary>
+    /// Creates a logger for the specific test based on the test name.
+    /// </summary>
+    private static Microsoft.Extensions.Logging.ILogger CreateLoggerForTest(string testName)
     {
-        var logFileDirectory = Path.Combine(Settings.LogsDirectory, TestRunContext.TestFixture);
-        var logFilePath = Path.Combine(logFileDirectory, $"{TestRunContext.TestName}_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.log");
+        var testSuiteName = TestRunContext.TestFixture;
+        var logFileDirectory = Path.Combine(Settings.LogsDirectory, testSuiteName);
+        Directory.CreateDirectory(logFileDirectory);
 
-        Log.Logger = new LoggerConfiguration()
-            .MinimumLevel.Is(ConvertLogLevel(MinimumLevel))
+        // Name the log file based on the test name and timestamp
+        var logFilePath = Path.Combine(logFileDirectory, $"{testName}_{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.log");
+
+        // Set up Serilog logger with the configured log file
+        var logger = new LoggerConfiguration()
+            .MinimumLevel.Is(ConvertLogLevelToSerilogLevel(MinimumLevel))
             .WriteTo.File(logFilePath)
             .CreateLogger();
 
-        var loggerFactory = new SerilogLoggerFactory(Log.Logger);
+        var loggerFactory = new SerilogLoggerFactory(logger);
         return loggerFactory.CreateLogger("AutomationLogger");
     }
 
     /// <summary>
-    /// Sets up logging for current test.
+    /// Retrieves or creates a logger for the current test based on the test name.
     /// </summary>
-    /// <param name="page"></param>
-    /// <param name="logger">Optional custom logger. If null, default Serilog logger will be used.</param>
-    /// <returns></returns>
+    private static Microsoft.Extensions.Logging.ILogger GetLogger()
+    {
+        var testName = TestRunContext.TestName;
+
+        return Loggers.GetOrAdd(testName, CreateLoggerForTest);
+    }
+
+    /// <summary>
+    /// Sets up logging for the current test.
+    /// </summary>
+    /// <param name="page">The Playwright page to log events from.</param>
+    /// <param name="logger">The logger to use for logging. If not provided, a new default Serilog logger is created.</param>
     public static void SetUpTestLogging(IPage page, Microsoft.Extensions.Logging.ILogger? logger = null)
     {
-        Logger = logger ?? CreateDefaultLogger();
+        var testLogger = logger ?? GetLogger();
 
-        // New page instance is created for each test
-        // Hence, we need to set up logging for each page instance
         if (LogRequests)
         {
-            page.Request += (_, e) => LogRequest(e);
+            page.Request += (_, e) => testLogger.LogInformation("Request: {Url} - Method: {Method}", e.Url, e.Method);
         }
         if (LogResponses)
         {
-            page.Response += async (_, e) => await LogResponseAsync(e);
+            page.Response += async (_, e) =>
+            {
+                try
+                {
+                    var responseBody = await e.TextAsync();
+                    testLogger.LogInformation("Response body: {ResponseBody}", responseBody);
+                }
+                catch (PlaywrightException ex)
+                {
+                    testLogger.LogError(ex, "Failed to get response body for request {RequestUrl}", e.Url);
+                }
+            };
         }
         if (LogPageErrors)
         {
-            page.PageError += (_, e) => LogPageError(e);
+            page.PageError += (_, e) => testLogger.LogError("Page Error: {Error}", e);
         }
     }
 
     /// <summary>
-    /// Closes the logger and releases any resources held by it.
+    /// Closes the logger for the current test.
     /// </summary>
     public static void CloseLogger()
     {
-        if (Log.Logger != null)
+        var testName = TestRunContext.TestName;
+
+        if (Loggers.TryRemove(testName, out var logger))
         {
-            Log.CloseAndFlush();
+            if (logger is IDisposable disposableLogger)
+            {
+                disposableLogger.Dispose();
+            }
         }
     }
-
+    
     /// <summary>
     /// Logs a message with the specified log level.
     /// </summary>
-    /// <param name="message"></param>
-    /// <param name="originator"></param>
-    /// <param name="level"></param>
     public static void LogMessage(string message, Type originator, LogLevel level = LogLevel.Information)
     {
         if (!Settings.Logging)
@@ -98,31 +126,9 @@ public static class LoggingManager
             return;
         }
 
+        var testLogger = GetLogger();
         var originatorName = originator.FullName;
 
-        Logger.Log(level, "{Originator}: {Message}", originatorName, message);
-    }
-
-    private static void LogRequest(IRequest request)
-    {
-        Logger.LogInformation("Request: {Url} - Method: {Method}", request.Url, request.Method);
-    }
-
-    private static async Task LogResponseAsync(IResponse response)
-    {
-        try
-        {
-            var responseBody = await response.TextAsync();
-            Logger.LogInformation("Response body: {ResponseBody}", responseBody);
-        }
-        catch (PlaywrightException ex)
-        {
-            Logger.LogError(ex, "Failed to get response body for request {RequestUrl}", response.Url);
-        }
-    }
-
-    private static void LogPageError(string error)
-    {
-        Logger.LogError("Page Error: {Error}", error);
+        testLogger.Log(level, "{Originator}: {Message}", originatorName, message);
     }
 }

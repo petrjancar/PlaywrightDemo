@@ -16,16 +16,16 @@ public abstract class BaseTest : PageTest
 {
     [SetUp]
     public async Task SetUp()
-    {            
-        if (Settings.Tracing != TracingOptions.Never)
-        {
-            await TracingManager.StartTracingAsync(Context);
-        }
+    {      
         if (Settings.Logging)
         {
             LoggingManager.SetUpTestLogging(Page);
             Settings.LogSettings();
-        } 
+        }      
+        if (Settings.Tracing != TracingOptions.Never)
+        {
+            await TracingManager.StartTracingAsync(Context);
+        }      
         /*
             For video recording initialization, see 
             the overriden ContextOptions method below.
@@ -42,11 +42,11 @@ public abstract class BaseTest : PageTest
         if (Settings.VideoRecording != VideoRecordingOptions.Never)
         {
             await VideoRecordingManager.StopVideoRecordingAsync(Context, Page);
-        }      
+        }
         if (Settings.Logging)
         {
             LoggingManager.CloseLogger();
-        }
+        }     
     }
 
     public override BrowserNewContextOptions ContextOptions()

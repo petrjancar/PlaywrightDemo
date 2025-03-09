@@ -22,6 +22,6 @@
     <Parameter name="Tracing" value="Always" />
     <Parameter name="VideoRecording" value="Always" />
     <Parameter name="Screenshots" value="true" />
-    <Parameter name="RetryCount" value="2" /> 
+    <Parameter name="RetryCount" value="1" /> 
   </TestRunParameters>
 </RunSettings>

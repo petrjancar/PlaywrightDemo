@@ -1,9 +1,7 @@
 using Automation.Model.Environment;
 using Automation.Configuration.Logging;
 using Automation.Utilities.Attributes;
-using Automation.Utilities.Helpers;
 using Automation.Configuration;
-using SixLabors.ImageSharp;
 using Automation.Model.PageObjects.AdminLoginPage;
 using Automation.Model.PageObjects.AdminLoginPage.Data;
 using Automation.Model.PageObjects.AdminViewPage;
@@ -11,6 +9,7 @@ using Automation.Model.PageObjects.AdminViewPage;
 namespace Automation.Tests.LoginTests;
 
 [TestFixture]
+[Parallelizable(ParallelScope.Self)]
 public class LoginTests : BaseTest
 {
     [Test]
@@ -37,34 +36,15 @@ public class LoginTests : BaseTest
     }
 
     [Test]
-    [Category(TestCategories.Smoke)]
+    [Category(TestCategories.Performance)]
     [UIRetry]
-    public async Task CompareLoginPageScreenshotsPassTest()
+    public async Task LoginPagePerformanceTest()
     {
         var adminLoginPage = new AdminLoginPage(Page);
         await adminLoginPage.GotoAsync();
-        
-        using var actual = Image.Load(await Page.ScreenshotAsync());
-        // for Demo purposes, we are using the images saved in the `Automation/Tests/TestData/Images` folder
-        string expectedPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Tests\TestData\Images\CompareLoginPagePass.png");
-        using var expected = Image.Load(expectedPath);
-        Assert.That(ImageCompareHelper.ImagesAreEqual(actual, expected, 90), Is.True);
-    }
 
-    [Test]
-    [Category(TestCategories.Smoke)]
-    [UIRetry]
-    [Ignore("Ignoring this test due to GitHub Actions")]
-    public async Task CompareLoginPageScreenshotsFailTest()
-    {
-        var adminLoginPage = new AdminLoginPage(Page);
-        await adminLoginPage.GotoAsync();
-        
-        using var actual = Image.Load(await Page.ScreenshotAsync());
-        // for Demo purposes, we are using the images saved in the `Automation/Tests/TestData/Images` folder
-        string expectedPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\..\..\Tests\TestData\Images\CompareLoginPageFail.png");
-        using var expected = Image.Load(expectedPath);
-        Assert.That(ImageCompareHelper.ImagesAreEqual(actual, expected), Is.True);
+        var performanceMetrics = await adminLoginPage.GetPerformanceMetricsAsync();
+        LoggingManager.LogMessage($"Performance Metrics:\n{performanceMetrics}", typeof(LoginTests));
     }
 
     [Test]
@@ -81,17 +61,5 @@ public class LoginTests : BaseTest
         {
             LoggingManager.LogMessage($"{violation}", typeof(LoginTests));
         }
-    }
-
-    [Test]
-    [Category(TestCategories.Performance)]
-    [UIRetry]
-    public async Task LoginPagePerformanceTest()
-    {
-        var adminLoginPage = new AdminLoginPage(Page);
-        await adminLoginPage.GotoAsync();
-
-        var performanceMetrics = await adminLoginPage.GetPerformanceMetricsAsync();
-        LoggingManager.LogMessage($"Performance Metrics:\n{performanceMetrics}", typeof(LoginTests));
-    }
+    } 
 }

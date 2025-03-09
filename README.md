@@ -21,7 +21,7 @@
 
 - parallel execution:
   - only `ParallelScope.Self` on TestFixture-s is supported (Playwright limitation)
-  - when tests are run in parallel, logging is not working as expected
+  - each test must have a unique name
 
 ## Dependencies
 
