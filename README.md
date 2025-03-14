@@ -1,6 +1,6 @@
 # PlaywrightDemo
 
-.NET Playwright demo.
+.NET Playwright + NUnit demo.
 
 ## Features
 
