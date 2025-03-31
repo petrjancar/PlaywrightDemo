@@ -10,7 +10,7 @@ This project serves as a practical example and learning resource, illustrating b
 ## ✨ Features
 
 - **Foundation:**
-  - Advanced Page Object Model (POM) for clean UI interaction logic.
+  - Page Object Model (POM) for clean UI interaction logic.
   - Reusable Element Abstractions (Button, TextBox, etc.) and Page Fragments (e.g. Navigation).
 - **Configuration:**
   - Easily configure test runs (browser, headless mode, timeouts, etc.) via `.runsettings` files.
@@ -26,7 +26,7 @@ This project serves as a practical example and learning resource, illustrating b
 - **Test Capabilities:**
   - Examples of **Functional**, **Visual Comparison** (using ImageSharpCompare), **Accessibility** (using AxeCore), and **Performance** metric tests.
 - **Custom HTML Reporting:**
-  - Standalone reporting tool generates a detailed HTML report from NUnit results.
+  - Standalone reporting tool generates a detailed **HTML report** from NUnit results.
   - Automatically **links artifacts** (logs, videos, traces, screenshots) directly to test results in the report.
 
 ## ⚙️ Continuous Integration (CI)
@@ -60,21 +60,30 @@ This project serves as a practical example and learning resource, illustrating b
 
 ### Prerequisites
 
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) installed.
-- Ensure Playwright browsers are installed (run `pwsh bin/Debug/net8.0/playwright.ps1 install` or `dotnet build` in the `Automation` project directory after cloning).
-
-### Running Tests
-
-The tests target the public ["Evil Tester" Simple Todo List](https://eviltester.github.io/simpletodolist/) as the application under test. It serves as a practical example and learning resource.
-
-1. **Clone the repository:**
+1. Clone the repository:
 
    ```bash
    git clone https://github.com/petrjancar/PlaywrightDemo.git
    cd PlaywrightDemo
    ```
 
-2. **Run tests using `dotnet test`:**
+2. Build the `Automation` project after cloning so the `playwright.ps1` is available inside the `bin` directory:
+
+   ```bash
+   dotnet build
+   ```
+
+3. Install required browsers:
+
+   ```bash
+   pwsh Automation/bin/Debug/net8.0/playwright.ps1 install
+   ```
+
+### Running Tests
+
+The tests target the public ["Evil Tester" Simple Todo List](https://eviltester.github.io/simpletodolist/) as the application under test. It serves as a practical example and learning resource.
+
+1. **Run tests using `dotnet test`:**
    Specify a `.runsettings` file for configuration (examples provided in `Automation/Configuration/RunSettings/`).
 
    ```bash
