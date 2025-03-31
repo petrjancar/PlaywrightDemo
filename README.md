@@ -53,7 +53,7 @@ This project serves as a practical example and learning resource, illustrating b
 
 ## 📂 Project Structure
 
-- **`Automation/`**: Contains the core test framework, page objects, tests, and utilities.
+- **`Automation/`**: Contains the core test framework.
 - **`Reporting/`**: A separate console application to parse test results and generate the HTML report.
 
 ## 🚀 Getting Started
